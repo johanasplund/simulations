@@ -21,6 +21,11 @@
 * If an animal reached breeding age the animal will first move according to the movement rules, then a new animal of the same type is spawned in the cell from which the old animal moved, and the age of both, the parent and the offspring is reset to zero
 * If the shark does not find any food before it reaches starvation age, it dies and disappears from the grid. If it fins food the starvation timer is reset to zero
 
+##Possible results
+* A perfect balance between fish and sharks, which increase and decrease but never become extinct
+* Disappearance of sharks
+* Extinction of both species
+
 ##Output
 The grid is represented graphically using PyGame
 
