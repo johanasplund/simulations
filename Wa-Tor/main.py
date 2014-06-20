@@ -1,8 +1,6 @@
 import random
-import os
 import pygame
 import sys
-import math
 from time import sleep
 
 
@@ -14,7 +12,7 @@ def main(size):
 		for i in range(size):
 			map.append([])
 			for k in range(size):
-				map[-1].append(['', 0, 0])
+				map[-1].append(['', 0, random.randint(0, 4)])
 		fishes = [(random.randint(0, size-1), random.randint(0, size-1)) for k in range(int((size**2)*0.5))]
 		sharks = [(random.randint(0, size-1), random.randint(0, size-1)) for k in range(int((size**2)*0.05))]
 		for fish in fishes:
@@ -65,7 +63,7 @@ def main(size):
 					pygame.draw.circle(screen, sea_color, (place*board_scale + sprite_scale, row*board_scale + sprite_scale), sprite_scale, 0)
 					continue
 				elif creature == 'F':
-					if map[row][place][1] == 5:
+					if map[row][place][1] == 4:  # Breed
 						move = new_position_fish(map, row, place)
 						if move:
 							map[(row + move[0]) % size][(place + move[1]) % size][0] = 'F'
@@ -83,27 +81,27 @@ def main(size):
 							pygame.draw.circle(screen, sea_color, (place*board_scale + sprite_scale, row*board_scale + sprite_scale), sprite_scale, 0)
 
 				elif creature == 'S':
-					if map[row][place][1] == 3:
+					if map[row][place][1] == 3:  # Death
 						map[row][place][0] = ''
 						map[row][place][1] = 0
 						map[row][place][2] = 0
 						pygame.draw.circle(screen, sea_color, (place*board_scale + sprite_scale, row*board_scale + sprite_scale), sprite_scale, 0)
 					else:
-						#hunt
+						#Hunt
 						result = new_position_shark(map, row, place)
 						if result:
 							move = result.pop(1)
-							if result[0] is True:
+							if result[0] is True:  # There is fish near by
 								map[(row + move[0]) % size][(place + move[1]) % size][0] = 'S'
 								map[(row + move[0]) % size][(place + move[1]) % size][1] = 0
 								map[(row + move[0]) % size][(place + move[1]) % size][2] = map[row][place][2] + 1
 								pygame.draw.circle(screen, shark_color, (((place + move[0]) % size)*board_scale + sprite_scale, ((row + move[1]) % size)*board_scale + sprite_scale), sprite_scale, 0)
-								if map[row][place][2] != 5:
+								if map[row][place][2] != 4:
 									map[row][place][0] = ''
 									map[row][place][1] = 0
 									map[row][place][2] = 0
 									pygame.draw.circle(screen, sea_color, (place*board_scale + sprite_scale, row*board_scale + sprite_scale), sprite_scale, 0)
-								else:
+								else:  # Breed
 									map[(row + move[0]) % size][(place + move[1]) % size][2] = 0
 									map[row][place][1] = 0
 									map[row][place][2] = 0
@@ -112,12 +110,12 @@ def main(size):
 								map[(row + move[0]) % size][(place + move[1]) % size][1] = map[row][place][1] + 1
 								map[(row + move[0]) % size][(place + move[1]) % size][2] = map[row][place][2] + 1
 								pygame.draw.circle(screen, shark_color, (((place + move[0]) % size)*board_scale + sprite_scale, ((row + move[1]) % size)*board_scale + sprite_scale), sprite_scale, 0)
-								if map[row][place][2] != 5:
+								if map[row][place][2] != 4:
 									map[row][place][0] = ''
 									map[row][place][1] = 0
 									map[row][place][2] = 0
 									pygame.draw.circle(screen, sea_color, (place*board_scale + sprite_scale, row*board_scale + sprite_scale), sprite_scale, 0)
-								else:
+								else:  # Breed
 									map[(row + move[0]) % size][(place + move[1]) % size][2] = 0
 									map[row][place][1] = 0
 									map[row][place][2] = 0
@@ -133,8 +131,6 @@ def main(size):
 	pygame.display.set_caption('Wa-Tor')
 	while True:
 		# sleep(0.1)
-		# map = move_fish(map, screen)
-		# map = move_shark(map, screen)
 		map = move(map, screen)
 		pygame.display.update()
 		for event in pygame.event.get():
