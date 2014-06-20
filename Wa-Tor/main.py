@@ -23,10 +23,6 @@ def main(size):
 			pygame.draw.circle(screen, shark_color, (shark[1]*board_scale + sprite_scale, shark[0]*board_scale + sprite_scale), sprite_scale, 0)
 		return (map, len(sharks), len(fish))
 
-	def random_move():
-		moves = [(-1, -1), (-1, 0), (-1, 1), (0, -1), (0, 1), (1, -1), (1, 0), (1, 1)]
-		return random.choice(moves)
-
 	def new_position_fish(map, row, place):
 		available = []
 		for i in [(-1, -1), (-1, 0), (-1, 1), (0, -1), (0, 1), (1, -1), (1, 0), (1, 1)]:
